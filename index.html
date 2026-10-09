@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StayEase – Find and book your stay</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo" id="logo-link">Stay<span>Ease</span></a>
+      <nav class="nav">
+        <button class="nav-btn active" data-view="home">Explore</button>
+        <button class="nav-btn" data-view="saved">Saved <span class="badge" id="saved-count">0</span></button>
+        <button class="nav-btn" data-view="bookings">My Bookings <span class="badge" id="bookings-count">0</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME VIEW -->
+    <section id="view-home" class="view">
+      <div class="hero">
+        <div class="container">
+          <h1>Find your perfect stay</h1>
+          <p>Search hotels, resorts and boutique stays across Pakistan.</p>
+          <form id="search-form" class="search-bar" novalidate>
+            <label>Destination
+              <input type="text" id="s-dest" placeholder="City or hotel name" list="city-list" autocomplete="off">
+              <datalist id="city-list"></datalist>
+            </label>
+            <label>Check-in
+              <input type="date" id="s-checkin">
+            </label>
+            <label>Check-out
+              <input type="date" id="s-checkout">
+            </label>
+            <label>Guests
+              <input type="number" id="s-guests" min="1" max="10" value="2">
+            </label>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          <p class="form-error" id="search-error" role="alert"></p>
+        </div>
+      </div>
+
+      <div class="container layout">
+        <aside class="filters">
+          <div class="filters-head">
+            <h2>Filters</h2>
+            <button type="button" class="link-btn" id="reset-filters">Reset</button>
+          </div>
+
+          <div class="filter-group">
+            <label for="f-price">Max price / night: <strong id="f-price-val">$350</strong></label>
+            <input type="range" id="f-price" min="20" max="350" step="10" value="350">
+          </div>
+
+          <div class="filter-group">
+            <label for="f-rating">Minimum rating</label>
+            <select id="f-rating">
+              <option value="0">Any</option>
+              <option value="3.5">3.5+</option>
+              <option value="4">4.0+</option>
+              <option value="4.5">4.5+</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-title">Property type</span>
+            <div id="f-types" class="checks"></div>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-title">Amenities</span>
+            <div id="f-amenities" class="checks"></div>
+          </div>
+        </aside>
+
+        <section class="results">
+          <div class="results-head">
+            <p id="results-count" aria-live="polite"></p>
+            <label class="sort">Sort by
+              <select id="sort">
+                <option value="recommended">Recommended</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="rating">Top rated</option>
+              </select>
+            </label>
+          </div>
+          <div id="hotel-grid" class="grid"></div>
+          <div id="empty-state" class="empty" hidden>
+            <h3>No stays match your search</h3>
+            <p>Try a different destination or loosen your filters.</p>
+            <button class="btn btn-primary" id="empty-reset">Clear all</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- SAVED VIEW -->
+    <section id="view-saved" class="view" hidden>
+      <div class="container page">
+        <h1>Saved stays</h1>
+        <div id="saved-grid" class="grid"></div>
+        <div id="saved-empty" class="empty" hidden>
+          <h3>Nothing saved yet</h3>
+          <p>Tap the heart on any hotel to save it here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKINGS VIEW -->
+    <section id="view-bookings" class="view" hidden>
+      <div class="container page">
+        <h1>My bookings</h1>
+        <div id="bookings-list" class="bookings"></div>
+        <div id="bookings-empty" class="empty" hidden>
+          <h3>No bookings yet</h3>
+          <p>When you book a stay, it will show up here.</p>
+          <button class="btn btn-primary" data-view="home">Find a stay</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; <span id="year"></span> StayEase. Demo project – bookings are stored in your browser only.</div>
+  </footer>
+
+  <!-- Hotel detail modal -->
+  <div class="modal" id="modal-hotel" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="hotel-title">
+      <button class="modal-close" data-close aria-label="Close">&times;</button>
+      <div id="hotel-detail"></div>
+    </div>
+  </div>
+
+  <!-- Booking modal -->
+  <div class="modal" id="modal-book" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card narrow" role="dialog" aria-modal="true" aria-labelledby="book-title">
+      <button class="modal-close" data-close aria-label="Close">&times;</button>
+      <div id="book-content"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
